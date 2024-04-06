@@ -1,7 +1,17 @@
 import java.io.File;
 import java.text.SimpleDateFormat;
 
+/**
+ * Класс для переименования изображения на основе метаданных.
+ */
 public class ImageRenamer {
+    /**
+     * Генерирует новое имя файла на основе метаданных.
+     *
+     * @param metadata метаданные изображения
+     * @param imageFile файл изображения
+     * @return новое имя файла, сформированное на оснве даты из метаданных и расширения исходного файла
+     */
     public String generateNewFileName(ImageMetadata metadata, File imageFile) {
         String newFileName = null;
         if(metadata != null && metadata.getCaptureDate() != null) {
@@ -13,6 +23,13 @@ public class ImageRenamer {
         return newFileName;
     }
 
+    /**
+     * Переименовывает файл в указанное имя.
+     *
+     * @param imageFile файл который треубеится переименовать
+     * @param newFileName новое имя файла
+     * @return объект типа File, представляющий переименованный файл, или исходный файл, если переименование не удалось
+     */
     public File renameFile(File imageFile, String newFileName) {
         File renamedFile = new File(imageFile.getParent(), newFileName);
         if (imageFile.renameTo(renamedFile)) {
@@ -22,7 +39,13 @@ public class ImageRenamer {
         }
     }
 
-    private String getFileExtension (File file){
+    /**
+     * Получает расширение файла.
+     *
+     * @param file исходный файл у которого необходимо получить расширение
+     * @return расширение файла, включая точку
+     */
+    public String getFileExtension (File file){
         String extension = "";
         String fileName = file.getName();
         int dotIndex = fileName.lastIndexOf('.');
@@ -32,6 +55,4 @@ public class ImageRenamer {
         return extension;
 
     }
-
-
 }

@@ -5,6 +5,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Класс для обработки файлов
+ */
 public class FileProcessor {
     private String directoryName;
     private List<File> files;
@@ -12,17 +15,39 @@ public class FileProcessor {
         this.files = new ArrayList<>();
     }
 
+    /**
+     * Получает имя директории.
+     *
+     * @return возвращает имя директории с файлами
+     */
     public String getDirectoryName() {
         return directoryName;
     }
 
+    /**
+     * Устанавливает имя директории для обработки файлов
+     *
+     * @param directoryName заданное имя директории
+     */
     public void setDirectoryName(String directoryName) {
         this.directoryName = directoryName;
     }
+
+    /**
+     * Устанавливает список файлов для обработки.
+     *
+     * @param files список файлов для обработки
+     */
     public void setFiles(List<File> files) {
         this.files = files;
     }
 
+    /**
+     * Запрашивает ввод директории для обработки.
+     * Ввод директории до тех пор, пока не будет введен существующее имя директории.
+     *
+     * @return имя директории для обработки
+     */
     public String inputDirectoryName() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String directoryName = null;
@@ -42,6 +67,11 @@ public class FileProcessor {
         return directoryName;
     }
 
+    /**
+     * Возвращает массив файлов в целевой директории.
+     *
+     * @return возвращает массив файлов в целевой директории
+     */
     public File[] getFiles() {
         File folder =  new File(directoryName);
         if (folder.isDirectory()) {
@@ -50,25 +80,6 @@ public class FileProcessor {
             return new File[0];
         }
     }
-
-    public void addFiles(File[] files) {
-        if (files != null) {
-            for (File file : files) {
-                if (files != null) {
-                    this.files.add(file);
-                }
-            }
-        }
-    }
-
-    public String getFileName(List<File> files) {
-        for (File file : files) {
-            return file.getAbsolutePath();
-        }
-        return "Files list is empty.";
-    }
-
-
 
     @Override
     public String toString() {
