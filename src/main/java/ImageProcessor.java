@@ -9,6 +9,7 @@ import java.io.IOException;
 public class ImageProcessor {
     private FileProcessor fileProcessor;
     private boolean deleteProcessedFiles;
+
     public ImageProcessor(FileProcessor fileProcessor, boolean deleteProcessedFiles) {
         this.fileProcessor = fileProcessor;
         this.deleteProcessedFiles = deleteProcessedFiles;
@@ -38,37 +39,38 @@ public class ImageProcessor {
             try {
                 // читаем метадату из изображения
                 ImageMetadata imageMetadata = metaDataReader.readMetaData(imageFile);
-                if (imageMetadata != null) {
-                    // сохраняем имя файла и переименовываем файл
-                    String newFileName = imageRenamer.generateNewFileName(imageMetadata, imageFile);
-                    File renamedFile = imageRenamer.renameFile(imageFile, newFileName);
-                    // сортируем файл по папкам
-                    imageSorter.sortImage(renamedFile);
-                } else {
-                    // файлы без метадаты переносим в папку с неотсортированными изображениями
-                    File destinationFile = new File(notSortedFolder.getAbsolutePath()
-                            + File.separator + imageFile.getName());
-                    System.out.println("File " + imageFile.getName() + " moves to 'notsorted' folder");
-                        if(!imageFile.renameTo(destinationFile)) {
-                        System.out.println("Failed to move file to 'notsorted' folder.");
-                    }
-                }
+                String newFileName = imageRenamer.generateNewFileName(imageMetadata, imageFile);
+                File renamedFile = imageRenamer.renameFile(imageFile, newFileName);
+                imageSorter.sortImage(renamedFile);
 
             } catch (ImageProcessingException | IOException ex) {
                 System.err.println("Error processing image file: " + imageFile.getName());
                 ex.printStackTrace();
-
+                moveToNotSortedFolder(imageFile, notSortedFolder);
             }
         }
         // удаление исходных файлов
         if (deleteProcessedFiles) {
-            for (File file : imageFiles) {
-                // Перед удалением проверяем, был ли файл перемещен в папку "notsorted"
-                if (file.exists() && file.getParentFile().equals(notSortedFolder)) {
-                    file.delete();
-                }
-            }
-            System.out.println("Deleted processed files");
+            deleteProcessedFiles(imageFiles, notSortedFolder);
         }
     }
+
+    private void moveToNotSortedFolder(File imageFile, File notSortedFile) {
+        File destinationFile = new File(notSortedFile.getAbsolutePath() + File.separator
+                + imageFile.getName());
+        System.out.println("File " + imageFile.getName() + "moved to 'notsorted' folder");
+        if(!imageFile.renameTo(destinationFile)) {
+            System.out.println("Failed to move file to 'notsorted' folder.");
+        }
+    }
+
+    private void deleteProcessedFiles(File[] imageFiles, File notSortedFolder) {
+        for (File file : imageFiles) {
+            if(file.exists() && file.getParentFile().equals(notSortedFolder)) {
+                file.delete();
+            }
+        }
+        System.out.println("Deleted processed files");
+    }
+
 }

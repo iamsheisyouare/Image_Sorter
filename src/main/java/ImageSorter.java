@@ -4,10 +4,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
-// TODO
-//  1.Удаление файлов: нужно ли оно?;
-//  2.Написать тесты;
-//  3.Указать JavaDoc;
+
 
 /**
  * Класс для сортировки файлов.

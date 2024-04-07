@@ -1,6 +1,10 @@
 import java.io.File;
 import java.util.Scanner;
 
+// TODO
+//  1.Удаление файлов: нужно ли оно?;
+//  2. Тесты не для ImageProcessor yе все работают, не срабатывает mock;
+
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);

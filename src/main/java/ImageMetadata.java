@@ -6,6 +6,9 @@ import java.util.Date;
 public class ImageMetadata {
     private Date captureDate;
 
+    public ImageMetadata() {
+    }
+
     public ImageMetadata(Date captureDate) {
         this.captureDate = captureDate;
     }

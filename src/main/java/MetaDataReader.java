@@ -18,7 +18,7 @@ public class MetaDataReader {
      * @throws IOException если произошла ошибка ввода-вывода при чтении файла
      */
     public ImageMetadata readMetaData (File imageFile) throws ImageProcessingException, IOException {
-        Metadata metadata =ImageMetadataReader.readMetadata(imageFile);
+        Metadata metadata = ImageMetadataReader.readMetadata(imageFile);
         ExifSubIFDDirectory directory = metadata.getFirstDirectoryOfType(ExifSubIFDDirectory.class);
         if (directory != null) {
             return new ImageMetadata(directory.getDate(ExifSubIFDDirectory.TAG_DATETIME_ORIGINAL));
